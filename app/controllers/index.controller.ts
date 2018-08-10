@@ -8,7 +8,9 @@ export class Index {
    * @param {e.Request} req
    * @param {e.Response} res
    */
-  static show(req: Request, res: Response) {
-    res.render('index', {title: 'Node'});
+  static async show(req: Request, res: Response) {
+    res.render('index', {
+      title: 'Paper'
+    });
   }
 }

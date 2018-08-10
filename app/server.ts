@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { port } from './config';
 import { router } from './routes';
@@ -14,8 +13,8 @@ const app: express.Application = express();
 /**
  * Parse POST data
  */
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /**
  * Parse cookies
@@ -39,5 +38,5 @@ app.use(ErrorHandler);
  * Serve the application at the given port
  */
 app.listen(port, () => {
-    console.log(`Listening at http://localhost:${port}/`);
+  console.log(`Listening at http://localhost:${port}/`);
 });

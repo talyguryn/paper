@@ -9,4 +9,8 @@ const docReady = (f) => {
   return /in/.test(document.readyState) ? window.setTimeout(docReady, 9, f) : f();
 };
 
-docReady(writing.runEditor);
+docReady(() => {
+  const editorData = window.defaultEditorData;
+
+  writing.runEditor(editorData);
+});

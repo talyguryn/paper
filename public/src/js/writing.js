@@ -1,8 +1,6 @@
 import { Utils } from "./utils";
 
-const ajax = require('codex.ajax');
-
-const CodexEditor = require('codex.editor');
+// const CodexEditor = require('codex.editor');
 
 /**
  * Load Tools for the Editor
@@ -18,30 +16,39 @@ let editor;
 const save = Utils.debounce(() => {
   editor.saver.save()
     .then((savedData) => {
-      ajax.call({
-        type: 'POST',
-        url: '/',
-        data: savedData,
-        before: function () {
-        },
-        progress: function (percentage) {
-          console.log(percentage + '%');
-          // ...
-        },
-        success: function (response) {
-          console.log(response);
-          // window.history.pushState({}, "", response.id);
-          // ...
-        },
-        error: function (response) {
-          console.log(response);
-          // ...
-        },
-        after: function () {
-        }
+      /**
+       * Send POST request
+       */
+      return new Promise((resolve, reject) => {
+        let xmlhttp = window.XMLHttpRequest ? new window.XMLHttpRequest() : new window.ActiveXObject('Microsoft.XMLHTTP');
+
+        xmlhttp.open("POST", "/");
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xmlhttp.onreadystatechange = () => {
+          if (xmlhttp.readyState === 4) {
+            const response = xmlhttp.responseText;
+
+            if (xmlhttp.status === 200) {
+              resolve(response);
+            } else {
+              reject(response);
+            }
+          }
+        };
+        xmlhttp.send(JSON.stringify(savedData));
       });
+    })
+    .then(response => {
+      response = JSON.parse(response);
+
+      console.log('Server response: ', response);
+
+      window.history.pushState({}, "", response.id);
+    })
+    .catch(err => {
+      console.log('Error was occurred while saving: ', err);
     });
-}, 2000);
+}, 1000);
 
 class Writing {
 
@@ -49,51 +56,45 @@ class Writing {
     editor = null;
 
     // this.bindSaveButton();
-    // this.bindKeydown();
+    this.bindKeydown();
   }
 
-  runEditor() {
-      editor = new CodexEditor({
-        // holderId: 'codex-editor',
-        tools: {
-          image: SimpleImage,
+  runEditor(data = {}) {
+    const editorData = !Utils.isEmptyObject(data) ? data : this.defaultEditorData;
 
-          header: {
-            class: Header,
-            config: {
-              placeholder: 'Title'
-            }
-          },
+    editor = new CodexEditor({
+      // holderId: 'codex-editor',
+      tools: {
+        image: SimpleImage,
 
-          list: {
-            class: List,
-            inlineToolbar: true
-          },
-
-          quote: {
-            class: Quote,
-            inlineToolbar: true,
-            config: {
-              quotePlaceholder: 'Enter a quote',
-              captionPlaceholder: 'Quote\'s author'
-            }
-          },
-
-          delimiter: Delimiter
+        header: {
+          class: Header,
+          config: {
+            placeholder: 'Title'
+          }
         },
-        data: {
-          blocks: [
-            {
-              type: "header",
-              data: {
-                text: "",
-                level: 2
-              }
-            }
-          ]
+
+        list: {
+          class: List,
+          inlineToolbar: true
         },
-        onReady: Writing.onReady
-      });
+
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+          config: {
+            quotePlaceholder: 'Enter a quote',
+            captionPlaceholder: 'Quote\'s author'
+          }
+        },
+
+        delimiter: Delimiter,
+      },
+
+      data: editorData,
+
+      onReady: Writing.onReady
+    });
   };
 
   static onReady() {
@@ -120,6 +121,20 @@ class Writing {
       console.log('keydown');
       save();
     });
+  }
+
+  get defaultEditorData() {
+    return {
+      blocks: [
+        {
+          type: "header",
+          data: {
+            text: "",
+            level: 2
+          }
+        }
+      ]
+    };
   }
 }
 

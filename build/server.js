@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = __importDefault(require("path"));
 var express_1 = __importDefault(require("express"));
-var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_parser_1 = __importDefault(require("cookie-parser"));
 var config_1 = require("./config");
 var routes_1 = require("./routes");
@@ -17,8 +16,8 @@ var app = express_1.default();
 /**
  * Parse POST data
  */
-app.use(body_parser_1.default.urlencoded({ extended: false }));
-app.use(body_parser_1.default.json());
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 /**
  * Parse cookies
  */

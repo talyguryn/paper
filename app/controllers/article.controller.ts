@@ -1,4 +1,7 @@
 import { Request, Response } from 'express';
+import { Database } from "../models/database";
+
+const Articles = new Database('articles');
 
 export class Article {
 
@@ -8,10 +11,18 @@ export class Article {
    * @param {e.Request} req
    * @param {e.Response} res
    */
-  static show(req: Request, res: Response) {
+  static async show(req: Request, res: Response) {
     let { id } = req.params;
 
-    res.send(`Article #${id}`);
+    const articles = await Articles.find({_id: id});
+
+    // res.send(JSON.stringify(articles[0].blocks));
+
+    res.render('index', {
+      editorData: {
+        blocks: articles[0].blocks
+      }
+    });
   }
 
   /**
@@ -20,13 +31,25 @@ export class Article {
    * @param {e.Request} req
    * @param {e.Response} res
    */
-  static save(req: Request, res: Response) {
+  static async save(req: Request, res: Response) {
     // res.send(`Saving the article`);
-    // res.json(req.body);
+
+    console.log('req.headers', req.headers);
+
+    console.log('req.body', req.body);
+
+    const savedArticle = await Articles.insert(req.body);
+
+    console.log('savedArticle', savedArticle);
+
+    // console.log('Articles.find', await Articles.find({}));
 
     let response = {
-      id: Math.random().toString(36).substr(2, 9),
-    }
+      id: savedArticle._id, //Math.random().toString(36).substr(2, 9),
+      savedData: savedArticle
+    };
+
+    // let response = req.body;
 
     res.json(response);
   }
