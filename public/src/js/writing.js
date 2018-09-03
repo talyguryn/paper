@@ -1,6 +1,6 @@
 import { Utils } from "./utils";
 
-// const CodexEditor = require('codex.editor');
+const CodexEditor = require('codex.editor');
 
 /**
  * Load Tools for the Editor
@@ -63,7 +63,6 @@ class Writing {
     const editorData = !Utils.isEmptyObject(data) ? data : this.defaultEditorData;
 
     editor = new CodexEditor({
-      // holderId: 'codex-editor',
       tools: {
         image: SimpleImage,
 
@@ -95,7 +94,7 @@ class Writing {
 
       onReady: Writing.onReady
     });
-  };
+  }
 
   static onReady() {
     document.getElementById('codex-editor').classList.remove('hide');
