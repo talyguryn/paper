@@ -2,14 +2,17 @@ import { Utils } from "./utils";
 
 const CodexEditor = require('codex.editor');
 
-/**
- * Load Tools for the Editor
- */
+/** Tools for the Editor */
 const SimpleImage = require('codex.editor.simple-image');
 const Header = require('codex.editor.header');
 const List = require('codex.editor.list');
 const Quote = require('codex.editor.quote');
 const Delimiter = require('codex.editor.delimiter');
+const CodeTool = require('codex.editor.code');
+
+/** Inline Tools */
+const Marker = require('codex.editor.marker');
+const InlineCode = require('codex.editor.inline-code');
 
 let editor;
 
@@ -88,6 +91,12 @@ class Writing {
         },
 
         delimiter: Delimiter,
+
+        code: CodeTool,
+
+        marker: Marker,
+
+        inlineCode: InlineCode
       },
 
       data: editorData,
