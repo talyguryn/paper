@@ -33,7 +33,7 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.7.0",
-    "codex.editor": "^2.7.11",
+    "codex.editor": "^2.7.16",
     "codex.editor.code": "^2.3.0",
     "codex.editor.delimiter": "^1.0.2",
     "codex.editor.embed": "^2.1.0",
