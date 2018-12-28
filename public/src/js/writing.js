@@ -107,7 +107,7 @@ class Writing {
 
       data: editorData,
 
-      onReady: Writing.onReady
+      // onReady: Writing.onReady
     });
   }
 
