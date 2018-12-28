@@ -13,8 +13,8 @@ const app: express.Application = express();
 /**
  * Parse POST data
  */
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 
 /**
  * Parse cookies

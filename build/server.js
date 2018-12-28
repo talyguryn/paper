@@ -16,8 +16,8 @@ var app = express_1.default();
 /**
  * Parse POST data
  */
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json({ limit: '50mb' }));
+app.use(express_1.default.urlencoded({ limit: '50mb', extended: true }));
 /**
  * Parse cookies
  */
