@@ -97,7 +97,7 @@ class Writing {
 
         embed: Embed,
 
-        code: CodeTool,
+        code: Code,
 
         table: Table,
 
