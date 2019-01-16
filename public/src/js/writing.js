@@ -8,9 +8,10 @@ const Header = require('codex.editor.header');
 const List = require('codex.editor.list');
 const Quote = require('codex.editor.quote');
 const Delimiter = require('codex.editor.delimiter');
-const CodeTool = require('codex.editor.code');
+const Code = require('codex.editor.code');
 const Embed = require('codex.editor.embed');
 const Table = require('codex.editor.table');
+const Checklist = require('codex.editor.checklist');
 
 /** Inline Tools */
 const Marker = require('codex.editor.marker');
@@ -99,6 +100,8 @@ class Writing {
         code: CodeTool,
 
         table: Table,
+
+        checklist: Checklist,
 
         marker: Marker,
 
